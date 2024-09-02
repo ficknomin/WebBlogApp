@@ -1,0 +1,22 @@
+{
+  "name": "webblog",
+  "version": "1.0.0",
+  "description": "web blog application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ficknomin/WebBlogApp.git"
+  },
+  "author": "ficknomin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ficknomin/WebBlogApp/issues"
+  },
+  "homepage": "https://github.com/ficknomin/WebBlogApp#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
