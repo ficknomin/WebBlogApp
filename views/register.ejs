@@ -1,0 +1,18 @@
+<%- include("templates/header.ejs") %>
+
+<%- include("templates/navbar.ejs") %>
+
+<div class="container d-flex align-items-center justify-content-center mt-auto flex-column" style="width: 30%; text-align: center; height: 55vh;">
+    <form action="/submit" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label mb-4" style="font-weight: 500; font-size: 2rem">Enter a username</label>
+            <input type="text" id="username" class="form-control" placeholder="" style="text-align: center;">
+        </div>
+        <div class="col d-grid col-4 mx-auto">
+            <button type="submit" class="btn btn-primary" style="background: hsl(210, 11%, 45%);">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+<%- include("templates/footer.ejs") %>
