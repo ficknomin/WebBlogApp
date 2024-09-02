@@ -1,27 +1,60 @@
 import express from "express"
+import bodyParser from "body-parser";
 import { dirname } from 'path'
 import { fileURLToPath } from "url"
+import User from "./user.js"
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
 
-var username = "";
+var user = new User();
 var isAuthorised = false;
+var posts = {};
+
+var userData;
+
+
 
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.get("/", (req, res) => {
-    res.render(__dirname + "/views/index.ejs")
+    userData = {
+        name: user.getName(),
+        authorised: isAuthorised,
+    }
+    res.render(__dirname + "/views/index.ejs", userData)
 });
 
 app.get("/register", (req, res) => {
-    res.render(__dirname + "/views/register.ejs")
+    userData = {
+        name: user.getName(),
+        authorised: isAuthorised,
+    }
+    res.render(__dirname + "/views/register.ejs", userData);
 });
 
+app.get("/home", (req, res) => {
+    userData = {
+        name: user.getName(),
+        authorised: isAuthorised,
+    }
+    res.render(__dirname + "/views/home.ejs", userData);
+})
+
 app.post("/submit", (req, res) => {
-    
+    user.register(req.body["username"]);
+    console.log(req.body["username"]);
+    isAuthorised = true;
+
+    userData = {
+        name: user.getName(),
+        authorised: isAuthorised,
+    }
+    res.render(__dirname + "/views/home.ejs", userData);
 })
 
 app.listen(port, () => {
