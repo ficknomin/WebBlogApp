@@ -5,7 +5,7 @@ class User{
     }
 
     addPost(post){
-        
+            
     }
 
     register(name){

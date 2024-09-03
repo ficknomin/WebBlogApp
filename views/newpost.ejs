@@ -1,0 +1,55 @@
+<%- include("templates/header.ejs") %>
+
+<%- include("templates/navbar.ejs") %>
+
+
+<div class="container">
+    <h1 class="h1 my-5">Create new post</h1>
+
+    <form id="post-form">
+        <div class="mb-3">
+            <label for="title" class="form-label">Enter the title</label>
+            <input type="text" class="form-control" id="title"></input>
+        </div>
+        <div class="mb-3">
+            <label for="froala" class="form-label">Content</label>
+            <div id="froala"></div>
+        </div>
+        <button type="submit" class="btn btn-secondary">Submit Post</button>
+    </form>
+</div>
+
+
+<link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+<script> 
+    var editor = new FroalaEditor('#froala');
+
+    document.getElementById('post-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Retrieve the content from Froala Editor
+        const editorContent = editor.html.get();
+
+        // Send POST request with content
+        fetch('/save-post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: editorContent })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Handle success (e.g., redirect or display a message)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle error (e.g., display an error message)
+        });
+    });
+
+</script>
+<%- include("templates/footer.ejs") %>
