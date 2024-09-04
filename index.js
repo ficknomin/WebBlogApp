@@ -28,14 +28,16 @@ app.get("/", (req, res) => {
     userData = {
         name: user.getName(),
         authorised: isAuthorised,
+        posts: posts,
     }
     res.render(__dirname + "/views/index.ejs", userData)
 });
 
-app.get("/newpost", (req, res) => {
+app.get("/new-post", (req, res) => {
     userData = {
         name: user.getName(),
         authorised: isAuthorised,
+        posts: posts,
     }
     res.render(__dirname + "/views/newpost.ejs", userData);
 })
@@ -44,14 +46,17 @@ app.get("/register", (req, res) => {
     userData = {
         name: user.getName(),
         authorised: isAuthorised,
+        posts: posts,
     }
     res.render(__dirname + "/views/register.ejs", userData);
 });
 
 app.get("/home", (req, res) => {
+    console.log(posts);
     userData = {
         name: user.getName(),
         authorised: isAuthorised,
+        posts: posts,
     }
     res.render(__dirname + "/views/home.ejs", userData);
 });
@@ -64,18 +69,29 @@ app.post("/submit", (req, res) => {
     userData = {
         name: user.getName(),
         authorised: isAuthorised,
+        posts: posts,
     }
     res.render(__dirname + "/views/home.ejs", userData);
 });
 
 app.post("/save-post", (req, res) => {
-    console.log("POST request received at /save-post");
+    console.log(req.body);
     const content = req.body.content;
+    const title = req.body.title;
 
     if (content) {
-        posts.push(content);
-        console.log('Content saved:', content);
-        res.json({ message: "Post saved successfully" });
+        console.log("POST request received at /save-post");
+        console.log(req.body);
+        posts.push(new Post(title, content, user.getName()));
+        console.log('Posts:', posts);
+        userData = {
+            name: user.getName(),
+            authorised: isAuthorised,
+            posts: posts,
+        }
+    
+        res.render(__dirname + "/views/home.ejs", userData);
+
     } else {
         res.status(400).json({ message: "No content received." });
     }
