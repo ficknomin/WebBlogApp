@@ -1,0 +1,17 @@
+<%- include("templates/header.ejs") %>
+
+<%- include("templates/navbar.ejs") %>
+
+<div class="container">
+    <% if(locals.post){ %>
+        <p class="h3"><%= locals.post.title %></p>
+        <p class="d-inline p-2 ">
+            <%- locals.post.text %>
+        </p>
+    <% } else { %>
+        <p>ERROR</p>
+    <% } %>
+</div>
+
+
+<%- include("templates/footer.ejs") %>

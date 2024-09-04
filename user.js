@@ -1,11 +1,11 @@
 class User{
     constructor(){
         this.name = "";
-        this.posts = {};
+        this.posts = [];
     }
 
     addPost(post){
-            
+
     }
 
     register(name){

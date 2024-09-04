@@ -32,10 +32,24 @@
 
         // Retrieve the content from Froala Editor
         const editorContent = editor.html.get();
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = editorContent;
+
+        console.log(tempElement);
+        const removeStyles = (element) => {
+            element.removeAttribute('style');
+            for(let child of element.children){
+                removeStyles(child);
+            }
+        }
+        removeStyles(tempElement);
+
+        const cleanedHtml = tempElement.innerHTML;
 
         // Send POST request with content
 
-        document.getElementById('froala-content').value = editorContent;
+        document.getElementById('froala-content').value = cleanedHtml;
 
 
     });

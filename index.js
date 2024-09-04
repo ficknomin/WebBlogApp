@@ -21,7 +21,7 @@ var userData;
 
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -59,7 +59,24 @@ app.get("/home", (req, res) => {
         posts: posts,
     }
     res.render(__dirname + "/views/home.ejs", userData);
+
 });
+
+app.get('/load-post', (req, res) => {
+    
+    const postTitle = req.query.title;
+    const post = posts.find(p => p.title === postTitle);
+
+    console.log(post.text); 
+
+    userData = {
+        name: user.getName(),
+        authorised: isAuthorised,
+        post: post,
+    }
+    res.render(__dirname + "/views/post.ejs", userData);
+
+})
 
 app.post("/submit", (req, res) => {
     user.register(req.body["username"]);
@@ -81,8 +98,10 @@ app.post("/save-post", (req, res) => {
 
     if (content) {
         console.log("POST request received at /save-post");
-        console.log(req.body);
-        posts.push(new Post(title, content, user.getName()));
+        const post = new Post(title, content, user.getName());
+        posts.push(post);
+        user.posts.push(post);
+        
         console.log('Posts:', posts);
         userData = {
             name: user.getName(),
@@ -96,6 +115,7 @@ app.post("/save-post", (req, res) => {
         res.status(400).json({ message: "No content received." });
     }
 });
+
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
