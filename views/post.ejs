@@ -4,14 +4,38 @@
 
 <div class="container">
     <% if(locals.post){ %>
-        <p class="h3"><%= locals.post.title %></p>
+        <p class="h3 my-2 pt-3"><%= locals.post.title %></p>
         <p class="d-inline p-2 ">
             <%- locals.post.text %>
         </p>
     <% } else { %>
         <p>ERROR</p>
     <% } %>
+    <% if(user.posts.indexOf(locals.post) >= 0){ %>
+        <!--Handy way to pass data in url through POST request.-->
+        <button type="button" class="btn btn-secondary my-3" id="delete">Delete post</button>       
+    <% } else { %>
+        
+    <% } %>
 </div>
+
+<script>
+    document.querySelector('#delete').addEventListener('click', function(event){
+        fetch("/delete-post?title=<%= encodeURIComponent(locals.post.title) %>", {
+            method: "GET",
+        })
+        .then(response => {
+            if(response.ok){
+                window.location.href = '/home'; // Example: redirect to home
+            } else {
+                console.error('Failed to delete the post');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
 
 
 <%- include("templates/footer.ejs") %>

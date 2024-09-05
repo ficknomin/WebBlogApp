@@ -4,9 +4,6 @@ class User{
         this.posts = [];
     }
 
-    addPost(post){
-
-    }
 
     register(name){
         this.name = name;

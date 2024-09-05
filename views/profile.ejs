@@ -2,7 +2,34 @@
 
 <%- include("templates/navbar.ejs") %>
 
-
+<div class="container">
+    <p class="h3 pt-3 my-3">Your posts</p>
+    <div class="list-group">
+        <% if(locals.posts){ %>
+            <% for(const post in locals.posts){ %>
+                <% for(const userPost in user.posts){ %>
+                    <% if(post === userPost){ %>
+                        <!--Using GET requests with parameter in route to load specific post-->
+                        <a href="/load-post?title=<%= encodeURIComponent(posts[post].title) %>" class="list-group-item list-group-item-action d-flex gap-3 py-3 mt-3" aria-current="true">
+                            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                            <div class="d-flex gap-2 w-100 justify-content-between">
+                            <div>
+                                <h6 class="mb-0"><%= posts[post].title %></h6>
+                                <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                            </div>
+                            <small class="opacity-50 text-nowrap">now</small>
+                            </div>
+                        </a>
+                    <% } else { %>
+                       
+                    <% } %>
+                <% } %>
+            <% } %>
+        <% }else{ %>
+    
+        <% } %>
+      </div>
+</div>
 
 
 <%- include("templates/footer.ejs") %>

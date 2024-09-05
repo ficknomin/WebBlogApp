@@ -26,7 +26,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         posts: posts,
     }
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.get("/new-post", (req, res) => {
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         posts: posts,
     }
@@ -44,7 +44,7 @@ app.get("/new-post", (req, res) => {
 
 app.get("/register", (req, res) => {
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         posts: posts,
     }
@@ -54,7 +54,7 @@ app.get("/register", (req, res) => {
 app.get("/home", (req, res) => {
     console.log(posts);
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         posts: posts,
     }
@@ -70,12 +70,21 @@ app.get('/load-post', (req, res) => {
     console.log(post.text); 
 
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         post: post,
     }
     res.render(__dirname + "/views/post.ejs", userData);
 
+});
+
+app.get('/user-profile', (req, res) => {
+    userData = {
+        user: user,
+        authorised: isAuthorised,
+        posts: posts,
+    }
+    res.render(__dirname + "/views/profile.ejs", userData);
 })
 
 app.post("/submit", (req, res) => {
@@ -84,7 +93,7 @@ app.post("/submit", (req, res) => {
     isAuthorised = true;
 
     userData = {
-        name: user.getName(),
+        user: user,
         authorised: isAuthorised,
         posts: posts,
     }
@@ -104,7 +113,7 @@ app.post("/save-post", (req, res) => {
         
         console.log('Posts:', posts);
         userData = {
-            name: user.getName(),
+            user: user,
             authorised: isAuthorised,
             posts: posts,
         }
@@ -115,6 +124,24 @@ app.post("/save-post", (req, res) => {
         res.status(400).json({ message: "No content received." });
     }
 });
+
+app.get("/delete-post", (req, res) => {
+    const postTitle = req.query.title;
+    const post = posts.find(p => p.title === postTitle);
+
+    const index = posts.indexOf(post);
+
+    if(index >= 0){
+        posts.splice(index, 1);
+    }
+
+    userData = {
+        user: user,
+        authorised: isAuthorised,
+        posts: posts,
+    }
+    res.render(__dirname + "/views/home.ejs", userData);
+})
 
 
 app.listen(port, () => {
